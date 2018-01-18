@@ -15,7 +15,4 @@ class Come extends BaseModel
 		return Db::query('select * from  user,come where user.user_id=come.user_id and come.user_id=?',[$user_id]);
 	}
 
-	public function userc(){
-		return $this->hasOne('user','come_id');
-	}
 }

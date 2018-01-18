@@ -14,9 +14,12 @@ Route::get('/',function(){
 	return 'Hellow,world!';
 });
 
+Route::post('api/Login','api/Login/Loginbypd');
+
 Route::get('api/user/:id','api/user/getUser');//查询用户信息
 Route::post('api/user','api/user/addUser');//新增
 Route::put('api/user/:id','api/user/updateuser');//修改
+
 
 Route::get('api/Come/bycomeid/:come_id','api/Come/getcomebycome_id');//获取收入通过comeid
 Route::get('api/Come/byuser_id/:user_id','api/Come/getcomebyuser_id');//获取收入通过user_id

@@ -4,7 +4,9 @@ use think\Validate;
 use think\Request;
 use app\api\exception\ParameterException;
 class BaseValidate extends validate{
-	function goCheck(){
+
+	//所有请求都在发生验证
+	public function goCheck(){
 		$request=Request::instance();
 		$params=$request->param();
 		if(!$this->check($params)){
@@ -16,6 +18,29 @@ class BaseValidate extends validate{
                 ]);
 			throw $exception;
 		}
-		return true;
+		return true; 
 	}
+
+	
+	    //手机号的验证规则
+    protected function isMobile($value)
+    {
+        $rule = '^1(3|4|5|7|8)[0-9]\d{8}$^';
+        $result = preg_match($rule, $value);
+        if ($result) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+	
+	//正整数
+	    protected function isPositiveInteger($value, $rule='', $data='', $field='')
+    {
+        if (is_numeric($value) && is_int($value + 0) && ($value + 0) > 0) {
+            return true;
+        }
+        return $field . '必须是正整数';
+    }
+	
 }

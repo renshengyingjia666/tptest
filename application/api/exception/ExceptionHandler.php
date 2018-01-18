@@ -1,9 +1,17 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: 七月
+* Date: 2017/2/12
+* Time: 19:44
+*/
+
 namespace app\api\exception;
+
 use think\exception\Handle;
+use think\Log;
 use think\Request;
 use Exception;
-use think\log;
 
 /*
  * 重写Handle的render方法，实现自定义异常消息
@@ -14,7 +22,7 @@ class ExceptionHandler extends Handle
     private $msg;
     private $errorCode;
 
-    public function render1(Exception $e)
+    public function render(Exception $e)
      {
         if ($e instanceof BaseException)
         {
@@ -49,8 +57,10 @@ class ExceptionHandler extends Handle
         return json($result, $this->code);
     }
 
-
-        private function recordErrorLog(Exception $e)
+    /*
+     * 将异常写入日志
+     */
+    private function recordErrorLog(Exception $e)
     {
         Log::init([
             'type'  =>  'File',
