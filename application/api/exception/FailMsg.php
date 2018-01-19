@@ -1,6 +1,6 @@
 <?php
 namespace app\api\exception;
-class FailMsg
+class FailMsg extends BaseException
 {
 	public $code=200;
 	public $errorCode=1;

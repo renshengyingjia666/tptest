@@ -14,7 +14,13 @@ Route::get('/',function(){
 	return 'Hellow,world!';
 });
 
-Route::post('api/Login','api/Login/Loginbypd');
+//注册登陆
+Route::post('api/Login/bypd','api/Login/Loginbypd');
+Route::post('api/Login/byph','api/Login/Loginbyph');
+Route::post('api/register','api/Login/register');
+
+//验证码
+Route::get('api/Code','api/Code/newcode');
 
 Route::get('api/user/:id','api/user/getUser');//查询用户信息
 Route::post('api/user','api/user/addUser');//新增

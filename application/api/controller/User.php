@@ -11,14 +11,8 @@ use app\api\model\Come;
 class User extends BaseController
 {
 
-	public function getUser($id){
-		$user=new UserModel;
-	$a=$user::with('user_come')
-            ->find($id);
-	
-	echo $a;
-/*		$validata=new IDmustint();
-		$validata->goCheck();
+	public function getUser(){
+		$id=self::checktoken();
 		$userinfo=UserModel::getUserbyID($id);
 		  if (!$userinfo) {
             throw new MissException([
@@ -26,7 +20,7 @@ class User extends BaseController
                 'errorCode' => 20000
             ]);
         }
-        return $userinfo;*/
+        return $userinfo;
 	}
 
 	public function addUser($phonenumber,$password){
