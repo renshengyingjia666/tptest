@@ -16,15 +16,14 @@ Route::get('/',function(){
 
 //注册登陆
 Route::post('api/Login/bypd','api/Login/Loginbypd');
-Route::post('api/Login/byph','api/Login/Loginbyph');
+Route::get('api/Login/phone/:phonenumber','api/Login/issetphone');
 Route::post('api/register','api/Login/register');
 
 //验证码
 Route::get('api/Code','api/Code/newcode');
 
-Route::get('api/user/:id','api/user/getUser');//查询用户信息
-Route::post('api/user','api/user/addUser');//新增
-Route::put('api/user/:id','api/user/updateuser');//修改
+Route::get('api/user/info','api/user/getUser');//查询用户信息
+Route::put('api/user/info','api/user/editUser');//修改用户信息s
 
 
 Route::get('api/Come/bycomeid/:come_id','api/Come/getcomebycome_id');//获取收入通过comeid

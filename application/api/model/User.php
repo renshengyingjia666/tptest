@@ -2,27 +2,39 @@
 namespace app\api\model;
 use think\Model;
 use app\api\service\Token;
+use think\Cache;
 class User extends BaseModel
 {
 
 	public static function userlogin($phonenumber,$password){
 		 //手机，密码正确添加token
-		 if(self::get(['phonenumber' => $phonenumber,'password'=>MD5('dk'.$password.'dk')])){
+		 if($User=User::get(['phonenumber' => $phonenumber,'password'=>MD5('dk'.$password.'dk')])){
+		 //获取user_id,token，删除旧的token	
+		 $tokenold=$User->token;
+		 Cache::rm($tokenold);		 	
+		 $user_id=$User->user_id;
 		 $Token=new Token;
 		 $token=$Token->generateToken();
-		 return self::where('phonenumber',$phonenumber)->update(['token' =>$token]);
+		 //添加新的token
+		 Cache::set($token,$user_id);
+	  	if(self::where('phonenumber',$phonenumber)->update(['token' =>$token])){
+	  		return $token;
+	  	}else{
+	  		return false;
+	  	}
 		}else{
 		 return false;
 		}
-
 	}
 
-    /*public function userprofile(){
-           return $this->hasOne('profile');
+	//关联用户资料
+    public function profile(){
+           return $this->belongsTo('profile','nickename','id');
     }
-	*/
-    public static function getUserbyID($id){
-		return $user->find($id);
+
+    //查询用户信息
+	public static function getUserbyID($user_id){	
+		 return User::with(['profile'])->where('user_id',$user_id)->find();
 	}
 
 
@@ -31,8 +43,15 @@ class User extends BaseModel
 		return self::where('phonenumber',$phonenumber)->find();
 	}
 	
+	//用户注册
 	public static function userregister($phonenumber,$password){
 		$user = new User(['phonenumber'=>$phonenumber,'password'=>MD5('dk'.$password.'dk')]);
 		return $user->save();
 	}
+
+	//修改用户信息
+	public static function editUser($user_id,$params){
+		return self::where("user_id",$user_id)->update($params);  
+	}
+
 }

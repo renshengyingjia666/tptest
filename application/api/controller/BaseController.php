@@ -7,7 +7,7 @@ use app\api\service\Token;
 */
 class Basecontroller extends Controller
 {
-	protected static function checktoken(){
-	return Token::getCurrentIdentity();
+	protected  function checktoken($key){
+	return Token::getCurrentIdentity('user_id');
 	}
 }

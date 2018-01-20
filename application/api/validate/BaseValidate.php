@@ -18,22 +18,11 @@ class BaseValidate extends validate{
                 ]);
 			throw $exception;
 		}
-		return true; 
+		return $params; 
 	}
 
 	
-	    //手机号的验证规则
-    protected function isMobile($value)
-    {
-        $rule = '^1(3|4|5|7|8)[0-9]\d{8}$^';
-        $result = preg_match($rule, $value);
-        if ($result) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-	
+
 	//正整数
 	    protected function isPositiveInteger($value, $rule='', $data='', $field='')
     {
@@ -41,6 +30,19 @@ class BaseValidate extends validate{
             return true;
         }
         return $field . '必须是正整数';
+    }
+
+    
+            //手机号的验证规则
+    protected function isMobile($value)
+    {
+        $rule = '^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$';
+        $result = preg_match($rule, $value);
+        if ($result) {
+            return true;
+        } else {
+            return false;
+        }
     }
 	
 }

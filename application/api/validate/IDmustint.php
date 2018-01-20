@@ -4,7 +4,7 @@ class IDmustint extends BaseValidate{
 	protected $rule=[
 		'id'=>'require|number',
 	];
-	protected $msg=[
+	protected $message=[
 		'id.require'=>'id必须',
 		'id.number'=>'id必须为数字',
 	];

@@ -2,6 +2,8 @@
 namespace app\api\service;
 //短信服务
 use think\Cache;
+use think\Request;
+use app\api\exception\FailMsg;
 class Token{
 
     // 生成令牌
@@ -19,23 +21,21 @@ class Token{
      * @return array result
      * @throws \app\lib\exception\TokenException
      */
-    public static function getCurrentIdentity()
+    public static function getCurrentIdentity($key)
     {
- /*       $token = Request::instance()
-            ->header('token');*/
-        $issetoken = Cache::get($token);
-        if (!$issetoken)
+        $token = Request::instance()
+            ->header('token');
+        $vars = Cache::get($token);
+        if (!$vars)
         {
-            throw new TokenException();
+            throw new FailMsg(['msg'=>'token错误或者不存在，请重新登陆','errorCode'=>'9999']);
         }
-        else
-        {
-            return $issetoken;
+        else {
+        return $vars;
         }
     }
 
 
-    
 
     public static function verifyToken($token)
     {
@@ -47,7 +47,5 @@ class Token{
             return false;
         }
     }
-}
-
 
 }
