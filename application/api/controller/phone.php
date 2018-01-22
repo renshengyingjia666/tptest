@@ -1,52 +1,21 @@
 <?php
 namespace app\api\controller;
-use app\api\controller\BaseController;
-use app\api\validate\IDmustint;
-use app\api\validate\PostUser;
-use app\api\model\User as UserModel;
-use app\api\exception\MissException;
-use app\api\exception\SuccessMsg;
+use app\api\service\Msg;
+use think\Request;
+use app\api\model\Code;
 use app\api\exception\FailMsg;
-use app\api\model\Come;
-class User extends BaseController
+class Phone extends BaseController
 {
 
-	public function getUser($id){
-		$user=new UserModel;
-	$a=$user::with('user_come')
-            ->find($id);
-	
-	echo $a;
-/*		$validata=new IDmustint();
-		$validata->goCheck();
-		$userinfo=UserModel::getUserbyID($id);
-		  if (!$userinfo) {
-            throw new MissException([
-                'msg' => '请求用户不存在',
-                'errorCode' => 20000
-            ]);
-        }
-        return $userinfo;*/
-	}
-
-	public function addUser($phonenumber,$password){
-		$validata=new PostUser();
-		$validata->goCheck();
-		if(!UserModel::addUser($phonenumber,$password)){
-			return new FailMsg();
-		}else{
-			return new SuccessMsg();
+	public function PostMsg(){
+		$Request = Request::instance();
+		$phonenumber=$Request->post('phonenumber'); 
+		if(Code::checkphone($phonenumber)){
+			throw new FailMsg(['msg'=>'60s之内不能重复发送验证码','errorCode'='20005']);
 		}
+		$content=Msg::sendSms($phonenumber);
+		echo json_encode($content);
 	}
-
-	public function updateuser($id,$sex=null,$nickname=null){
-		(new IDmustint())->goCheck();
-		 if(!UserModel::updateuser($id,$sex,$nickname)){
-		 	return new FailMsg();
-		 }else{
-		 	return new SuccessMsg();
-		}
-	}	
 	
 
 }

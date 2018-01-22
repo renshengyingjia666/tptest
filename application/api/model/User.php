@@ -9,19 +9,19 @@ class User extends BaseModel
 	public static function userlogin($phonenumber,$password){
 		 //手机，密码正确添加token
 		 if($User=User::get(['phonenumber' => $phonenumber,'password'=>MD5('dk'.$password.'dk')])){
-		 //获取user_id,token，删除旧的token	
-		 $tokenold=$User->token;
-		 Cache::rm($tokenold);		 	
-		 $user_id=$User->user_id;
-		 $Token=new Token;
-		 $token=$Token->generateToken();
-		 //添加新的token
-		 Cache::set($token,$user_id);
-	  	if(self::where('phonenumber',$phonenumber)->update(['token' =>$token])){
-	  		return $token;
-	  	}else{
-	  		return false;
-	  	}
+			 //获取user_id,token，删除旧的token	
+			 $tokenold=$User->token;
+			 Cache::rm($tokenold);		 	
+			 $user_id=$User->user_id;
+			 $Token=new Token;
+			 $token=$Token->generateToken();
+			 //添加新的token
+			 Cache::set($token,$user_id);
+		  	if(self::where('phonenumber',$phonenumber)->update(['token' =>$token])){
+		  		return $token;
+		  	}else{
+		  		return false;
+		  	}
 		}else{
 		 return false;
 		}
@@ -29,12 +29,14 @@ class User extends BaseModel
 
 	//关联用户资料
     public function profile(){
-           return $this->belongsTo('profile','nickename','id');
+           return $this->hasOne('Profile','user_id','user_id');
     }
 
     //查询用户信息
 	public static function getUserbyID($user_id){	
-		 return User::with(['profile'])->where('user_id',$user_id)->find();
+	$user = self::with(['profile'])
+            ->find($user_id);
+	return $user;
 	}
 
 

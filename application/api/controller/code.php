@@ -1,6 +1,5 @@
 <?php
 namespace app\api\controller;
-use app\api\controller\BaseController;
 use app\api\model\Code as CodeModel;
 use app\api\exception\SuccessMsg;
 use app\api\exception\FailMsg;

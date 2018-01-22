@@ -33,16 +33,6 @@ class BaseValidate extends validate{
     }
 
     
-            //手机号的验证规则
-    protected function isMobile($value)
-    {
-        $rule = '^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$';
-        $result = preg_match($rule, $value);
-        if ($result) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+
 	
 }

@@ -1,6 +1,5 @@
 <?php
 namespace app\api\controller;
-use app\api\controller\BaseController;
 use app\api\validate\IDmustint;
 use app\api\validate\PostUser;
 use app\api\model\User as UserModel;

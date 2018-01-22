@@ -570,6 +570,10 @@ class Validate
             case 'token':
                 $result = $this->token($value, '__token__', $data);
                 break;
+            case 'isMobile':
+                $result=$this->isMobile($value, $rule='', $data='', $field='');
+                break;
+
             default:
                 if (isset(self::$type[$rule])) {
                     // 注册的验证规则
@@ -998,6 +1002,18 @@ class Validate
             $length = mb_strlen((string) $value);
         }
         return $length >= $rule;
+    }
+
+            //手机号的验证规则
+    protected function isMobile($value, $rule='', $data='', $field='')
+    {
+        $rule = '^1(3|4|5|7|8)[0-9]\d{8}$^';
+        $result = preg_match($rule, $value);
+        if ($result) {
+            return true;
+        } else {
+            return '手机号码格式不正确';
+        }
     }
 
     /**

@@ -1,6 +1,5 @@
 <?php
 namespace app\api\controller;
-use app\api\controller\BaseController;
 use app\api\model\Come as ComeModel;
 use app\api\exception\MissException;
 class Come extends BaseController

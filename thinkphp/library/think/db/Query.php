@@ -1511,7 +1511,6 @@ class Query
         if (is_string($with)) {
             $with = explode(',', $with);
         }
-
         $i            = 0;
         $currentModel = $this->model;
 
