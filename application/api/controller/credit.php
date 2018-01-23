@@ -1,51 +1,39 @@
 <?php
 namespace app\api\controller;
-use app\api\validate\IDmustint;
-use app\api\validate\PostUser;
-use app\api\model\User as UserModel;
-use app\api\exception\MissException;
+use app\api\model\Credit AS Creditmodel;
+use app\api\model\Credit_record;
 use app\api\exception\SuccessMsg;
-use app\api\exception\FailMsg;
-use app\api\model\Come;
-class User extends BaseController
+use app\api\exception\MissException;
+class Credit extends BaseController
 {
-
-	public function getUser($id){
-		$user=new UserModel;
-	$a=$user::with('user_come')
-            ->find($id);
-	
-	echo $a;
-/*		$validata=new IDmustint();
-		$validata->goCheck();
-		$userinfo=UserModel::getUserbyID($id);
-		  if (!$userinfo) {
-            throw new MissException([
-                'msg' => '请求用户不存在',
-                'errorCode' => 20000
-            ]);
-        }
-        return $userinfo;*/
-	}
-
-	public function addUser($phonenumber,$password){
-		$validata=new PostUser();
-		$validata->goCheck();
-		if(!UserModel::addUser($phonenumber,$password)){
-			return new FailMsg();
+	//借款记录，分页，状态
+	public function getCredit($page,$state='',$pagenum=5){
+	$user_id=parent::checktoken('user_id');
+	$Credit=new Creditmodel;
+	$from=($page-1)*$pagenum;
+		if($state){
+	$list=$Credit->where('user_id',$user_id)->where('state',$state)->limit($from,$pagenum)->order('credit_id','desc')->select();
 		}else{
-			return new SuccessMsg();
+	$list= $Credit->where('user_id',$user_id)->limit($from,$pagenum)->order('credit_id','desc')->select();
 		}
+		if($list){
+			throw new SuccessMsg(['msg'=>$list]);
+		}else{
+			throw new MissException();
+		}
+
 	}
 
-	public function updateuser($id,$sex=null,$nickname=null){
-		(new IDmustint())->goCheck();
-		 if(!UserModel::updateuser($id,$sex,$nickname)){
-		 	return new FailMsg();
-		 }else{
-		 	return new SuccessMsg();
+	//还款记录
+	public function getCreditdetail($id){
+	$user_id=parent::checktoken('user_id');
+	$Credit_record=new Credit_record;
+	$list=$Credit_record->where('credit_id',$id)->order('cr_id','desc')->select();
+		if($list){
+			throw new SuccessMsg(['msg'=>$list]);
+		}else{
+			throw new MissException();
 		}
-	}	
-	
+	}
 
 }

@@ -2,6 +2,7 @@
 namespace app\api\service;
 use think\session;
 use app\api\exception\CodeException;
+use think\Request;
 //验证码
 class Code{
 
@@ -47,7 +48,9 @@ class Code{
 
 	public static function checkcode(){
 	$code_session=Session::get('checkcode');
-	if($code_session==MD5(input('?post.code'))){
+	$request=Request::instance();
+	$Code=$request->post('code');
+	if($code_session==MD5($Code)){
 		return true;
 	}
 		throw new CodeException();

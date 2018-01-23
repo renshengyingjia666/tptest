@@ -48,12 +48,20 @@ class User extends BaseModel
 	//用户注册
 	public static function userregister($phonenumber,$password){
 		$user = new User(['phonenumber'=>$phonenumber,'password'=>MD5('dk'.$password.'dk')]);
-		return $user->save();
+		$user->save();
+		return $user->user_id;
 	}
 
 	//修改用户信息
 	public static function editUser($user_id,$params){
 		return self::where("user_id",$user_id)->update($params);  
+	}
+
+	//初始化用户基本信息
+	public static function beginuser($user_id){
+		$profile new profile;
+		$profile->user_id=$user_id;
+		$profile->save();
 	}
 
 }

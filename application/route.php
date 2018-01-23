@@ -15,22 +15,21 @@ Route::get('/',function(){
 });
 
 //注册登陆
-Route::post('api/Login/bypd','api/Login/Loginbypd');
-Route::get('api/Login/phone/:phonenumber','api/Login/issetphone');
+Route::post('api/login/bypd','api/Login/Loginbypd');
+Route::get('api/login/phone/:phonenumber','api/Login/issetphone');
 Route::post('api/register','api/Login/register');
 
 //验证码
-Route::get('api/Code','api/Code/newcode');
+Route::get('api/code','api/Code/newcode');
 //短信
 Route::POST('api/phone/code','api/phone/PostMsg');
+
 
 Route::get('api/user/info','api/user/getUser');//查询用户信息
 Route::put('api/user/info','api/user/editUser');//修改用户信息
 Route::put('api/profile/info','api/profile/editProfile');
 
 
-
-
-
-Route::get('api/Come/bycomeid/:come_id','api/Come/getcomebycome_id');//获取收入通过comeid
-Route::get('api/Come/byuser_id/:user_id','api/Come/getcomebyuser_id');//获取收入通过user_id
+//借款
+Route::get('api/credit','api/Credit/getCredit');
+Route::get('api/credit/detail','api/credit/getCreditdetail');

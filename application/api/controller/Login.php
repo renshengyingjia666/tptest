@@ -47,7 +47,7 @@ class Login extends BaseController
 		if(!User::issetphone($phonenumber)){
 		throw new failMsg(['该手机已被注册','errorCode'=>20001]);
 		}
-		$userinfo=User::userregister($params['phonenumber'],$params['password']);	
+		$user_id=User::userregister($params['phonenumber'],$params['password']);	
 	}
 
 	/*	//通过手机号码登陆
