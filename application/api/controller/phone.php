@@ -1,9 +1,12 @@
 <?php
 namespace app\api\controller;
+use app\api\exception\MissException;
+use app\api\exception\SuccessMsg;
 use app\api\service\Msg;
 use think\Request;
 use app\api\model\Code;
 use app\api\exception\FailMsg;
+use app\api\model\User;
 class Phone extends BaseController
 {
 
@@ -23,6 +26,32 @@ class Phone extends BaseController
 		//记录手机验证码跟时间
 		Code::recode($phonenumber,$phonecode);
 	}
-	
+
+    /**
+     * @param $phonecode
+     * @param $password1
+     * @param $password2
+     * @throws FailMsg
+     * @throws MissException
+     * @throws SuccessMsg
+     * 修改密码
+     */
+	public  function  editpassword($phonecode,$password1,$password2){
+	    if($password1==$password2){
+            if(self::check_phonecode($phonecode,$password1)){
+                $user_id=parent::checktoken('user_id');
+                $use=new User;
+                if($use::editpassword($password1,$user_id)){
+                    throw  new SuccessMsg();
+                }
+            }else{        throw new MissException([
+                'msg' => '验证码错误',
+                'errorCode' => 20000
+                ]);
+            }
+        }else{
+	        throw new FailMsg(['msg'=>'两次密码不一样']);
+        }
+    }
 
 }

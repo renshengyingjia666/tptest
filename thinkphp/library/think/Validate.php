@@ -573,6 +573,9 @@ class Validate
             case 'isMobile':
                 $result=$this->isMobile($value, $rule='', $data='', $field='');
                 break;
+            case 'isID':
+                $result=$this->isID($value,$rule='',$data='',$field='');
+                break;
 
             default:
                 if (isset(self::$type[$rule])) {
@@ -1013,6 +1016,17 @@ class Validate
             return true;
         } else {
             return '手机号码格式不正确';
+        }
+    }
+
+    //身份证验证规则
+    protected  function  isID($value, $rule='', $data='', $field=''){
+        $rule='^\d{15}|\d{18}$^';
+        $result = preg_match($rule, $value);
+        if ($result) {
+            return true;
+        } else {
+            return '身份号码格式不正确';
         }
     }
 

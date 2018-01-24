@@ -64,4 +64,9 @@ class User extends BaseModel
 		$profile->save();
 	}
 
+	//修改用户密码
+    public  static function editpassword($password1,$user_id){
+        $user = new User;
+        return  $user->save(['password'=>MD5('dk'.$password1.'dk')],['user_id',$user_id]);
+    }
 }

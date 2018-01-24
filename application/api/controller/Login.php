@@ -24,10 +24,10 @@ class Login extends BaseController
 	}
 
 	//通过手机，密码登陆,返回token
-	public function Loginbypd(){
+	public function Loginbypd($phonenumber,$password){
 	$validata=new LoginVilidate();
-	$params=$validata->goCheck(); 
-	$token=User::userlogin($params['phonenumber'],$params['password']);
+	$validata->goCheck();
+	$token=User::userlogin($phonenumber,$password);
 		 if (!$token) {
             throw new MissException([
                 'msg' => '账号或者密码错误',
@@ -43,7 +43,8 @@ class Login extends BaseController
 		$code=new code();
 		$code::checkcode();
 		$validata=new LoginVilidate();
-		$params=$validata->goCheck(); 
+		$validata->goCheck();
+        $params=$validata->param();
 		if(!User::issetphone($phonenumber)){
 		throw new failMsg(['该手机已被注册','errorCode'=>20001]);
 		}

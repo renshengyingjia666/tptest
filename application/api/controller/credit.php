@@ -6,7 +6,12 @@ use app\api\exception\SuccessMsg;
 use app\api\exception\MissException;
 class Credit extends BaseController
 {
-	//借款记录，分页，状态
+    /**
+     * @param $page
+     * @param string $state
+     * @param int $pagenum
+     * @use 借款记录，分页，状态
+     */
 	public function getCredit($page,$state='',$pagenum=5){
 	$user_id=parent::checktoken('user_id');
 	$Credit=new Creditmodel;
@@ -24,7 +29,10 @@ class Credit extends BaseController
 
 	}
 
-	//还款记录
+    /**
+     * @param $id
+     * @use 还款记录
+     */
 	public function getCreditdetail($id){
 	$user_id=parent::checktoken('user_id');
 	$Credit_record=new Credit_record;

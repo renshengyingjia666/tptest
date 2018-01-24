@@ -18,7 +18,7 @@ class BaseValidate extends validate{
                 ]);
 			throw $exception;
 		}
-		return $params; 
+		return true;
 	}
 
 	

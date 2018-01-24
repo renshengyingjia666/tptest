@@ -1,6 +1,5 @@
 <?php
 namespace app\api\model;
-use think\Db;
 class Code extends BaseModel
 {	
 	//检查手机验证码是否正确
